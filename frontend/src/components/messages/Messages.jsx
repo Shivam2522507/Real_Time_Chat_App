@@ -2,12 +2,13 @@ import React, { useEffect, useRef } from "react";
 import Message from "./message";
 import useGetMessages from "../../hooks/useGetMessages";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
+import useListenMessages from "../../hooks/useListenMessages";
 
 const Messages = () => {
   const { messages, loading } = useGetMessages();
+  useListenMessages();
   const lastMessageRef = useRef();
- 
-  
+
   useEffect(() => {
     // Scroll to the last message when messages are rendered
     if (messages.length > 0) {
@@ -23,10 +24,9 @@ const Messages = () => {
         messages.length > 0 &&
         messages.map((message) => (
           <div key={message._id} ref={lastMessageRef}>
-            <Message  message={message} />
+            <Message message={message} />
           </div>
         ))}
-      
 
       {loading && [...Array(3)].map((_, idx) => <MessageSkeleton key={idx} />)}
 
